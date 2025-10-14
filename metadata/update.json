@@ -3,7 +3,5 @@
   "min_supported_version": "1.0.0",
   "force_update": false,
   "apk_url": "https://vidflow-teal.vercel.app/apk/base.apk",
-  "sha256": "abcd1234..."
+  "sha256": "6613b0de8afe6229d9981ffffd9c01f1fa5874c0"
 }
-
-
