@@ -2,6 +2,7 @@
   "latest_version": "1.2.0",
   "min_supported_version": "1.0.0",
   "force_update": false,
-  "apk_url": "https://vidflow-teal.vercel.app/apk/app-release.apk",
+  "apk_url": "https://github.com/Vv8056/vidflow/releases/download/testing/app-debug.apk",
   "sha256": "134c366843e7ef99b906ff8c6bfd5c77696b52a7e54b2bb8647ce2efc29dec69"
 }
+
