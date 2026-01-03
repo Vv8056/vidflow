@@ -1,0 +1,362 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Download — APK</title>
+  <meta name="description" content="Download the latest APK securely and fast. Shows size, progress, checksum and Android compatibility.">
+  <link rel="preconnect" href="https://example.com">
+  <style>
+    :root{--bg:#0f1724;--card:#0b1220;--accent:#06b6d4;--muted:#9aa7b2;--glass: rgba(255,255,255,0.05);}
+    /* ===== RESET ===== */
+    *,
+    *::before,
+    *::after{ box-sizing:border-box }
+    html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
+    body{  margin:0;min-height:100vh;font-family: Inter, system-ui, -apple-system,BlinkMacSystemFont,"Segoe UI", Roboto, Arial, sans-serif;color:#e6eef6;background:linear-gradient(180deg,#071126 0%, #071726 60%);line-height:1.55;-webkit-font-smoothing:antialiased;}
+    /* ===== CONTAINER ===== */
+    .container{max-width:1200px;margin-inline:auto;padding:clamp(14px, 4vw, 32px);}
+    /* ===== HEADER ===== */
+    header{display:flex;gap:clamp(14px, 3vw, 20px);align-items:center;flex-wrap:wrap;}
+    .logo{width:clamp(52px, 10vw, 72px);height:clamp(52px, 10vw, 72px);border-radius:18px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;color:#071126;font-weight:900;font-size:clamp(20px, 5vw, 26px);}
+    h1{margin:0;font-size:clamp(20px, 5vw, 30px)}
+    p.lead{margin-top:6px;max-width:60ch;color:var(--muted);font-size:clamp(14px, 3.5vw, 16px);}
+    /* ===== GRID ===== */
+    .grid{display:grid;grid-template-columns:1fr minmax(300px, 380px);gap:clamp(18px, 4vw, 32px);margin-top:32px;}
+    @media (max-width:1024px){.grid{ grid-template-columns:1fr }}
+    /* ===== CARD ===== */
+    .card{background:linear-gradient(180deg,  rgba(255,255,255,0.025),  rgba(255,255,255,0.015));border-radius:18px;padding:clamp(16px, 4vw, 24px);border:1px solid rgba(255,255,255,0.06);}
+    /* ===== FEATURES ===== */
+    .features{display:grid;gap:16px;}
+    .feature{display:flex;gap:14px;}
+    .feature .dot{width:44px;height:44px;border-radius:12px;background:var(--glass);display:flex;align-items:center;justify-content:center;font-weight:800;flex-shrink:0;}
+    .feature h3{margin:0;font-size:16px;}
+    .feature p{margin:6px 0 0;font-size:14px;color:var(--muted);}
+    .dot p{display: flex;flex-direction: row;}
+    /* ===== DOWNLOAD CARD ===== */
+    .download-card{display:flex;flex-direction:column;gap:16px;}
+    .app-row{display:flex;gap:14px;align-items:center;}
+    .app-icon{width:68px;height:68px;border-radius:16px;background:linear-gradient(135deg,var(--accent),#7c3aed);display:flex;align-items:center;justify-content:center;font-weight:900;color:#071126;font-size:22px;}
+    .meta h2{margin:0;font-size:19px;}
+    .meta p{margin:6px 0 0;font-size:13px;color:var(--muted);}
+    /* ===== STATS ===== */
+    .stats{display:flex;flex-wrap:wrap;gap:8px;font-size:12px;}
+    .stat{padding:6px 10px;background:rgba(255,255,255,0.04);border-radius:10px;white-space:nowrap;}
+    /* ===== BUTTON ===== */
+    .download-btn{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:16px;border-radius:16px;font-weight:900;border:none;cursor:pointer;background:linear-gradient(90deg,var(--accent),#7c3aed);color:#031023;transition:transform .12s ease, filter .12s ease;}
+    .download-btn:hover{ filter:brightness(1.05) }
+    .download-btn:active{ transform:translateY(1px) }
+    .download-btn:focus-visible{outline:3px solid var(--accent);outline-offset:2px;}
+    /* ===== PROGRESS ===== */
+    .progress{width:100%;height:10px;background:rgba(255,255,255,0.08);border-radius:999px;overflow:hidden;}
+    .bar{height:100%;width:0%;background:linear-gradient(90deg,#00f5a0,#06b6d4);}
+    /* ===== SHA-256 WRAP SAFE ===== */
+    .hash-row{display:flex;gap:6px;align-items:flex-start;font-size:12px;color:var(--muted);line-height:1.4;word-break:break-all;margin-bottom: 10px;}
+    .hash-label{flex-shrink:0;white-space:nowrap;}
+    .hash-value{max-width:100%;overflow-wrap:anywhere;word-break:break-word;font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;color:#c7f9ff;}
+    /* Mobile optimization */
+    @media (max-width:480px){.hash-row{  font-size:11px;}}
+    /* ===== TEXT ===== */
+    .small{ font-size:12px; color:var(--muted) }
+    .muted{ color:var(--muted) }
+    /* ===== FOOTER ===== */
+    footer{margin-top:32px;font-size:13px;color:var(--muted);text-align:center;}
+    /* ===== REDUCED MOTION ===== */
+    @media (prefers-reduced-motion: reduce){*{ animation:none!important; transition:none!important }}
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <div class="logo">M</div>
+      <div>
+        <h1>MyApp — Secure APK Download</h1>
+        <p class="lead">Fast, verified and optimized delivery for Android users. Works on mobile and desktop; be sure to open the link on an Android device to install.</p>
+      </div>
+    </header>
+
+    <main class="grid">
+      <section class="card">
+        <div class="features">
+          <div class="feature">
+            <div class="dot">✓</div>
+            <div>
+              <h3>Optimized delivery</h3>
+              <p>We show file size, checksum and download progress. Host the APK on a fast CDN with CORS and HTTPS for best results.</p>
+            </div>
+          </div>
+
+          <div class="feature">
+            <div class="dot">⚡</div>
+            <div>
+              <h3>Progressive UX</h3>
+              <p>Animated CTA, real-time progress bar and installer hints. Works even on slow networks — resumable downloads depend on server support.</p>
+            </div>
+          </div>
+
+          <div class="feature">
+            <div class="dot">🔒</div>
+            <div>
+              <h3>Checksum verified</h3>
+              <p>After download we compute SHA-256 so users (or you) can verify the file integrity before installation.</p>
+            </div>
+          </div>
+
+          <div class="feature">
+            <div class="dot">📱</div>
+            <div>
+              <h3>Android friendliness</h3>
+              <p class="small">We detect if the visitor is on Android and show tailored messages. For other devices we provide a direct link to copy and open on Android.</p>
+            </div>
+          </div>
+        </div>
+
+        <div style="margin-top:20px;color:var(--muted)">
+          <h3 style="margin:0 0 10px 0">Hosting & performance tips</h3>
+          <ul style="margin:0 0 0 18px;color:var(--muted);line-height:1.6">
+            <li>Serve APK over HTTPS with correct Content-Type: application/vnd.android.package-archive</li>
+            <li>Enable CORS (Access-Control-Allow-Origin: *) if you want the in-browser fetch to work from a different origin.</li>
+            <li>Set Content-Length so the page can estimate and show download speed and progress.</li>
+            <li>Use a CDN and add Cache-Control headers for repeated downloads.</li>
+          </ul>
+        </div>
+
+      </section>
+
+      <aside class="card download-card" aria-label="Download card">
+        <div class="app-row">
+          <div class="app-icon">M</div>
+          <div class="meta">
+            <h2 id="name">MyApp</h2>
+            <p class="muted">Latest stable • Modern. Fast. Secure.</p>
+            <div class="stats" style="margin-top:10px">
+              <div class="stat" id="size">Size — —</div>
+              <div class="stat" id="version">Version —</div>
+              <div class="stat" id="compat">Detecting…</div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <button id="downloadBtn" class="download-btn" aria-live="polite">
+            <span id="btnLabel">Download APK</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+              <path d="M12 3v12" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+              <path d="M8 11l4 4 4-4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            </svg>
+          </button>
+        </div>
+
+        <div>
+          <div class="progress" aria-hidden>
+            <div class="bar" id="progressBar"></div>
+          </div>
+          <div style="display:flex;justify-content:space-between;margin-top:8px">
+            <div class="small" id="speed">—</div>
+            <div class="small" id="eta">—</div>
+          </div>
+        </div>
+
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-top:6px;flex-direction: column;">
+          <!-- <div class="small">SHA-256: <span id="sha">(not calculated)</span></div> -->
+           <div class="hash-row">
+  <span class="hash-label">SHA-256:</span>
+  <span id="sha" class="hash-value">(not calculated)</span>
+</div>
+
+          <div><button id="copyLink" class="download-btn" style="background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--accent);font-weight:700;padding:8px 10px">Copy Link</button></div>
+        </div>
+
+        <div class="muted small" style="margin-top:6px">If download doesn't start, <a id="directLink" href="#" style="color:var(--accent)" download>click here</a>.</div>
+      </aside>
+    </main>
+
+    <footer class="card" style="margin-top:30px">Tip: Open this page on the Android device where you want to install the APK for the smoothest experience.</footer>
+  </div>
+
+<script defer>
+/* ================= CONFIG ================= */
+const GITHUB_RELEASES_API = '/api/releases';
+const APK_FILENAME = 'vidflow-latest.apk';
+
+/* ================= HELPERS ================= */
+const el = id => document.getElementById(id);
+const isAndroid = /Android/i.test(navigator.userAgent);
+
+function formatBytes(bytes){
+  if (!bytes || isNaN(bytes)) return '—';
+  const units = ['B','KB','MB','GB'];
+  let u = 0;
+  while(bytes >= 1024 && u < units.length - 1){
+    bytes /= 1024; u++;
+  }
+  return `${bytes.toFixed(1)} ${units[u]}`;
+}
+
+function formatETA(seconds){
+  if (isNaN(seconds)) return '—';
+  if (seconds < 60) return `${seconds}s`;
+  const m = Math.floor(seconds / 60);
+  const s = seconds % 60;
+  return `${m}m ${s}s`;
+}
+
+/* ================= UI STATE ================= */
+el('compat').textContent = isAndroid ? 'Android ✓' : 'Non-Android — open on device';
+if (!isAndroid) el('downloadBtn').classList.add('pulse');
+
+let APK_URL = null;
+let EXPECTED_SHA = null;
+
+/* ================= LOAD RELEASE FROM GITHUB ================= */
+async function loadLatestRelease(){
+  try {
+    const res = await fetch(GITHUB_RELEASES_API, {
+      headers: {
+        'Authorization': `Bearer ${GITHUB_TOKEN}`,
+        'Accept': 'application/vnd.github+json'
+      }
+    });
+
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message);
+    }
+
+    const releases = await res.json();
+    const release = releases[0];
+    const asset = release.assets.find(a => a.name.endsWith('.apk'));
+
+    if (!asset) throw new Error('APK asset not found');
+
+    APK_URL = asset.browser_download_url;
+    EXPECTED_SHA = asset.digest?.replace('sha256:', '') || null;
+
+    /* ===== Populate UI ===== */
+    // el('version').textContent = `Version ${release.tag_name}`;
+    el(`name`).textContent = `${release.name}`;
+    el('version').textContent = `Version: ${release.name}`;
+    el('size').textContent = `Size: ${formatBytes(asset.size)}`;
+    el('directLink').href = APK_URL;
+
+    if (EXPECTED_SHA) {
+      el('sha').textContent = EXPECTED_SHA;
+    }
+
+  } catch (err) {
+    console.error('Release load failed:', err);
+    el('version').textContent = 'Release unavailable';
+    el('directLink').href = 'https://github.com/Vv8056/vidflow/releases';
+  }
+}
+
+loadLatestRelease();
+
+/* ================= DOWNLOAD LOGIC ================= */
+async function downloadAPK() {
+  if (!APK_URL) {
+    window.open('https://github.com/Vv8056/vidflow/releases', '_blank');
+    return;
+  }
+
+  const btn = el('downloadBtn');
+  const label = el('btnLabel');
+  const bar = el('progressBar');
+
+  btn.disabled = true;
+  label.textContent = 'Starting download…';
+  bar.style.width = '0%';
+
+  /* ================= ANDROID SAFE PATH ================= */
+  if (isAndroid) {
+    /*
+      IMPORTANT:
+      Android browsers MUST use native download manager.
+      Streaming + Blob WILL FAIL on large APKs.
+    */
+    const a = document.createElement('a');
+    a.href = APK_URL;
+    a.download = APK_FILENAME; // hint only
+    a.rel = 'noopener';
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+
+    label.textContent = 'Download started';
+    bar.style.width = '100%';
+
+    btn.disabled = false;
+    return;
+  }
+
+  /* ================= DESKTOP STREAMING PATH ================= */
+  try {
+    label.textContent = 'Downloading…';
+
+    const resp = await fetch(APK_URL);
+    if (!resp.ok) throw new Error('Download failed');
+
+    const total = parseInt(resp.headers.get('content-length') || '0', 10);
+    const reader = resp.body.getReader();
+    const chunks = [];
+
+    let received = 0;
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      chunks.push(value);
+      received += value.length;
+
+      if (total) {
+        bar.style.width = `${Math.round((received / total) * 100)}%`;
+      }
+    }
+
+    label.textContent = 'Finalizing…';
+
+    const blob = new Blob(chunks, {
+      type: 'application/vnd.android.package-archive'
+    });
+
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = APK_FILENAME;
+    a.click();
+    URL.revokeObjectURL(url);
+
+    label.textContent = 'Download complete';
+    bar.style.width = '100%';
+
+  } catch (err) {
+    console.error(err);
+    label.textContent = 'Download failed — opening direct link';
+    window.open(APK_URL, '_blank');
+  } finally {
+    btn.disabled = false;
+  }
+}
+
+/* ================= EVENTS ================= */
+el('downloadBtn').addEventListener('click', () => {
+  if (!isAndroid) {
+    window.open(APK_URL, '_blank', 'noopener');
+    return;
+  }
+  downloadAPK();
+});
+
+el('copyLink').addEventListener('click', async () => {
+  if (!APK_URL) return;
+  await navigator.clipboard.writeText(APK_URL);
+  el('copyLink').textContent = 'Copied';
+  setTimeout(() => el('copyLink').textContent = 'Copy Link', 1200);
+});
+
+/* ================= SERVICE WORKER ================= */
+if ('serviceWorker' in navigator){
+  navigator.serviceWorker.register('/sw-apk.js').catch(()=>{});
+}
+</script>
