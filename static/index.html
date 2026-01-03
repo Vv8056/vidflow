@@ -176,7 +176,7 @@
 
 <script defer>
 /* ================= CONFIG ================= */
-const GITHUB_RELEASES_API = '/api/releases';
+const API_ROUTE = '/api/latest-release';
 const APK_FILENAME = 'vidflow-latest.apk';
 
 /* ================= HELPERS ================= */
@@ -209,39 +209,60 @@ let APK_URL = null;
 let EXPECTED_SHA = null;
 
 /* ================= LOAD RELEASE FROM GITHUB ================= */
-async function loadLatestRelease(){
+// async function loadLatestRelease(){
+//   try {
+//     const res = await fetch(GITHUB_RELEASES_API);
+
+//     if (!res.ok) {
+//       const err = await res.json();
+//       throw new Error(err.message);
+//     }
+
+//     const releases = await res.json();
+//     const release = releases[0];
+//     const asset = release.assets.find(a => a.name.endsWith('.apk'));
+
+//     if (!asset) throw new Error('APK asset not found');
+
+//     APK_URL = asset.browser_download_url;
+//     EXPECTED_SHA = asset.digest?.replace('sha256:', '') || null;
+
+//     /* ===== Populate UI ===== */
+//     // el('version').textContent = `Version ${release.tag_name}`;
+//     el(`name`).textContent = `${release.name}`;
+//     el('version').textContent = `Version: ${release.name}`;
+//     el('size').textContent = `Size: ${formatBytes(asset.size)}`;
+//     el('directLink').href = APK_URL;
+
+//     if (EXPECTED_SHA) {
+//       el('sha').textContent = EXPECTED_SHA;
+//     }
+
+//   } catch (err) {
+//     console.error('Release load failed:', err);
+//     el('version').textContent = 'Release unavailable';
+//     el('directLink').href = 'https://github.com/Vv8056/vidflow/releases';
+//   }
+// }
+  async function loadLatestRelease() {
   try {
-    const res = await fetch(GITHUB_RELEASES_API);
+    const res = await fetch(API_ROUTE);
+    if (!res.ok) throw new Error('Failed to load release');
+    const data = await res.json();
 
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.message);
-    }
+    APK_URL = data.url;
+    EXPECTED_SHA = data.sha;
 
-    const releases = await res.json();
-    const release = releases[0];
-    const asset = release.assets.find(a => a.name.endsWith('.apk'));
-
-    if (!asset) throw new Error('APK asset not found');
-
-    APK_URL = asset.browser_download_url;
-    EXPECTED_SHA = asset.digest?.replace('sha256:', '') || null;
-
-    /* ===== Populate UI ===== */
-    // el('version').textContent = `Version ${release.tag_name}`;
-    el(`name`).textContent = `${release.name}`;
-    el('version').textContent = `Version: ${release.name}`;
-    el('size').textContent = `Size: ${formatBytes(asset.size)}`;
+    el('name').textContent = data.name;
+    el('version').textContent = `Version: ${data.version}`;
+    el('size').textContent = `Size: ${formatBytes(data.size)}`;
     el('directLink').href = APK_URL;
 
-    if (EXPECTED_SHA) {
-      el('sha').textContent = EXPECTED_SHA;
-    }
-
+    if (EXPECTED_SHA) el('sha').textContent = EXPECTED_SHA;
   } catch (err) {
-    console.error('Release load failed:', err);
+    console.error(err);
     el('version').textContent = 'Release unavailable';
-    el('directLink').href = 'https://github.com/Vv8056/vidflow/releases';
+    el('directLink').href = 'https://github.com/dfg/vidflow/releases';
   }
 }
 
