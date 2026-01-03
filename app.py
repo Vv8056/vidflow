@@ -22,7 +22,11 @@ def load_update_data():
         return json.load(f)
 
 # --- API Endpoints ---
-
+# Serve index.html at root
+@app.route("/")
+def index():
+    return send_from_directory(app.static_folder, "index.html"
+                               
 # 1. GET update info for Flutter app
 @app.route("/update", methods=["GET"])
 def get_update():
@@ -74,5 +78,6 @@ def favicon():
 
 # --- Run ---
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True)
+    app.run(host="0.0.0.0", port=5000)
+
 
