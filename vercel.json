@@ -4,13 +4,11 @@
     {
       "src": "app.py",
       "use": "@vercel/python"
-    }
+    },
+    { "src": "index.html", "use": "@vercel/static" },
+    { "src": "api/**/*.js", "use": "@vercel/node" }
   ],
   "routes": [
-    {
-      "src": "/api/(.*)",
-      "dest": "/app.py"  // API routes go to Flask
-    },
     {
       "src": "/static/(.*)",
       "dest": "/static/$1"
@@ -21,4 +19,3 @@
     }
   ]
 }
-
