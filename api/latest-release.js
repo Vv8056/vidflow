@@ -2,7 +2,7 @@
 
 export default async function handler(req, res) {
   const GITHUB_TOKEN = process.env.GITHUB_TOKEN; // safe env variable
-  const GITHUB_API = 'https://api.github.com/repos/dfg/vidflow/releases';
+  const GITHUB_API = 'https://api.github.com/repos/Vv8056/vidflow/releases';
 
   if (!GITHUB_TOKEN) {
     return res.status(500).json({ error: 'GitHub token not set in environment variables' });
