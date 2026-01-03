@@ -28,13 +28,6 @@ def load_update_data():
 def index():
     return send_from_directory(app.static_folder, "index.html")
 
-@app.route("/api/releases", methods=["GET"])
-def get_releases():
-    data = load_update_data()
-    if not data:
-        return jsonify({"error": "No update info"}), 404
-    return jsonify(data)
-    
 # 1. GET update info for Flutter app
 @app.route("/update", methods=["GET"])
 def get_update():
@@ -87,6 +80,7 @@ def favicon():
 # --- Run ---
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
 
