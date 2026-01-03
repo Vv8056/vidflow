@@ -11,6 +11,7 @@ CORS(app)  # Enable CORS for all routes
 UPDATE_FILE = "metadata/update.json"
 UPLOAD_FOLDER = "latest-apk"
 STATIC_FOLDER = "static"  # For favicon and other static files
+static_url_path="/static"
 
 # os.makedirs(UPLOAD_FOLDER, exist_ok=True)
 
@@ -79,5 +80,6 @@ def favicon():
 # --- Run ---
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000)
+
 
 
